@@ -24,7 +24,7 @@
           <li class="nav-item has-treeview room_type">
             <a href="<?php echo ROOT; ?>roomtype" class="nav-link" id="room_type">
               <i id="room_typei" class="nav-icon fas fa-bookmark"></i>
-              <p id="room_typei">
+              <p id="room_typep">
                 Room Types
               </p>
             </a>
@@ -33,7 +33,7 @@
           <li class="nav-item has-treeview rooms">
             <a href="<?php echo ROOT; ?>rooms" class="nav-link" id="rooms">
               <i id="roomsi" class="nav-icon fas fa-building"></i>
-              <p id="roomsi">
+              <p id="roomsp">
                 Rooms
               </p>
             </a>
