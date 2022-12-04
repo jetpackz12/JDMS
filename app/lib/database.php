@@ -5,7 +5,7 @@ class database{
 	private $hostname = "localhost";
 	private $username = "root";
 	private $password = "";
-	private $database_name = "comsca_db"; // palihug ko change ani....
+	private $database_name = "rdms_db"; // palihug ko change ani....
 
 	private $conn;
 

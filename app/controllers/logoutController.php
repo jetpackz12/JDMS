@@ -32,7 +32,7 @@ class logoutController extends Controller
 			unset($_SESSION['mem_password']);
 
 			session_destroy();
-			header('location: /CoMSCA/');
+			header('location: /RDMS/');
 	}
 	
 

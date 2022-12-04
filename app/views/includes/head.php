@@ -46,7 +46,7 @@
   <!-- Toastr -->
   <link rel="stylesheet" href="<?php echo ROOT.BOOTSTRAP; ?>plugins/toastr/toastr.min.css">
   
-  <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/comsca-logo.png">
+  <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo.PNG">
 
 
   <style type="text/css">
