@@ -1,7 +1,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>COMSCA</title>
+  <title><?php echo TITLE; ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
@@ -48,84 +48,20 @@
   
   <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo.PNG">
 
-
-  <style type="text/css">
-    .active{
-      background-color: #32d184!important;
-      backdrop-filter: blur(100px)!important;
-      color: #000!important;
-      border-radius: 3px;
+  <style>
+    .logout:hover{
+      /* font-style: bold; */
+      text-decoration: underline #050505;
     }
-
-    #dashboard{
-      color: #000!important;
+    p{
+      font-size: 14px;
     }
-
-    .dashboard:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
+    .sidebaractive{
+      background-color: #4bd0cc;
     }
-
-    #saving_share{
-      color: #000!important;
+    .sidebarblacktext{
+      color: #050505;
     }
-
-    .saving_share:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-
-    #loan_interest{
-      color: #000!important;
-    }
-
-    .loan_interest:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-
-    #members{
-      color: #000!important;
-    }
-
-    .members:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-
-    #history{
-      color: #000!important;
-    }
-
-    .history:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-
-    #reports_savings{
-      color: #000!important;
-    }
-
-    .reports_savings:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-
-    #reports_loans{
-      color: #000!important;
-    }
-
-    .reports_loans:hover{
-      background-color: #32d184;
-      color: #000!important;
-      border-radius: 3px;
-    }
-    
   </style>
+
 </head>
