@@ -48,6 +48,17 @@
       width: 150px;
       float: right;
     }
+
+    .labelcolorinputted{
+      /* color: #CED4DA; */
+      font-style: italic;
+      text-decoration: underline;
+    }
+
+    .labelcolorinvalid{
+      color: #f4110b;
+      display: none;
+    }
 </style>
 
 </head>
@@ -88,11 +99,13 @@
                   <h3>Rams Dometory Management System</h3>
                   <form class="frm" action="<?php echo ROOT; ?>login" method="post">
                         <div class="form-group">
-                          <label for="username">Username:</label>
+                          <label id="labelusername" for="username">Username:</label>
+                          <span class="labelcolorinvalid" id="spanusername"> Invalid Username!</span>
                           <input id="username" class="form-control" id="username" type="text" name="username" placeholder="Username">
                         </div>
                         <div class="form-group">
-                          <label for="password">Password:</label>
+                          <label id="labelpassword" for="password">Password:</label>
+                          <span class="labelcolorinvalid" id="spanpassword"> Wrong Password!</span>
                           <input id="password" class="form-control" id="password" type="password" name="password" placeholder="Password">
                         </div>
                         <button class="btn btn-outline-primary btn-sm" type="submit">Login</button>
@@ -115,15 +128,41 @@
 <script src="<?php echo ROOT.BOOTSTRAP; ?>plugins/toastr/toastr.min.js"></script>
 <!-- Page specific script -->
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
-    <script>
+<script>
+
+   $('#username').keyup(function(event){
+      var usernamevalue = $('#username').val();
+      if(usernamevalue.length > 0){
+        $('#labelusername').addClass('labelcolorinputted');
+        $("#spanusername").hide();
+      }else{
+        $('#labelusername').removeClass('labelcolorinputted');
+        $("#spanusername").hide();
+      }
+   });
+
+   $('#password').keyup(function(event){
+      var passwordvalue = $('#password').val();
+      if(passwordvalue.length > 0){
+        $('#labelpassword').addClass('labelcolorinputted');
+        $("#spanpassword").hide();
+      }else{
+        $('#labelpassword').removeClass('labelcolorinputted');
+        $("#spanpassword").hide();
+      }
+   });
+
+</script>
+
+<script>
   
   $('.frm').on('submit',function(e){
     e.preventDefault();
-  var Toast = Swal.mixin({
+
+    var Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
@@ -137,66 +176,26 @@
         data     : $(this).serialize(),
         success  : function(data) {
 
-          // alert(data);
+          // console.log(data);
 
-          if (data == "ok") {
-                Toast.fire({
-                  icon: 'success',
-                  title: 'You have successfully Log in.'
-              });
-                setTimeout(function() {
-                 // body...
-                 location.reload();
-               },1000);
-          }else if(data == "member"){
-              Toast.fire({
-                  icon: 'success',
-                  title: 'You have successfully Log in.!'
-                });
-                setTimeout(function() {
-                 // body...
-                 location.reload();
-               },1000);
-          }else if(data == "pass"){
-              Toast.fire({
-                  icon: 'warning',
-                  title: 'Wrong password!'
-                });
-                setTimeout(function() {
-                 // body...
-                 // alert(data);
-               },1000);
-          }else if(data == "memberpass"){
-              Toast.fire({
-                  icon: 'warning',
-                  title: 'Wrong password!'
-                });
-                setTimeout(function() {
-                 // body...
-                 // alert(data);
-               },1000);
-          }else if(data == "status"){
-              Toast.fire({
-                  icon: 'warning',
-                  title: 'Account is inactive try to ask the admin!'
-                });
-                setTimeout(function() {
-                 // body...
-                 // alert(data);
-               },1000);
-          }else{
-              Toast.fire({
-                  icon: 'error',
-                title: 'MVCSETUP'
-                });
-                setTimeout(function() {
-                 // body...
-                 // alert(data);
-                 location.reload();
-               },1000);
-                 
+          if(data == "username"){
+            $("#spanusername").show();
           }
 
+          if(data == "password"){
+            $("#spanpassword").show();
+          }
+
+          if (data == "success") {
+            Toast.fire({
+                  icon: 'success',
+                  title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspYou have successfully Log in.'
+              });
+            setTimeout(function() {
+                // console.log(data);
+                location.reload();
+               },1000);
+          }
         
         }
     });
