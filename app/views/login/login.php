@@ -101,12 +101,12 @@
                         <div class="form-group">
                           <label id="labelusername" for="username">Username:</label>
                           <span class="labelcolorinvalid" id="spanusername"> Invalid Username!</span>
-                          <input class="form-control" id="username" type="text" name="username" placeholder="Username">
+                          <input class="form-control" id="username" type="text" name="username" placeholder="Username" require>
                         </div>
                         <div class="form-group">
                           <label id="labelpassword" for="password">Password:</label>
                           <span class="labelcolorinvalid" id="spanpassword"> Wrong Password!</span>
-                          <input class="form-control" id="password" type="password" name="password" placeholder="Password">
+                          <input class="form-control" id="password" type="password" name="password" placeholder="Password" require>
                         </div>
                         <button class="btn btn-outline-primary btn-sm" type="submit">Login</button>
                   </form> 

@@ -49,6 +49,17 @@
   <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo.PNG">
 
   <style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
     .logout:hover{
       /* font-style: bold; */
       text-decoration: underline #050505;
@@ -61,6 +72,16 @@
     }
     .sidebarblacktext{
       color: #050505;
+    }
+    .labelcolorinputted{
+      /* color: #CED4DA; */
+      font-style: italic;
+      text-decoration: underline;
+    }
+
+    .labelcolorinvalid{
+      color: #f4110b;
+      display: none;
     }
   </style>
 
