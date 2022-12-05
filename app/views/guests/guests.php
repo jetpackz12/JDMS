@@ -31,7 +31,7 @@
                             <input id="search" class="form-control" type="text" name="search" placeholder="You can use room#/fullname/address for searching">
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-defualt" data-toggle="modal" data-target="#modal-addTenants"> <i class="nav-icon fas fa-plus-circle"></i> Add Tenants</button>
+                            <button class="btn btn-defualt" data-toggle="modal" data-target="#modal-addGuests"> <i class="nav-icon fas fa-plus-circle"></i> Add Guests</button>
                         </div>
                     </div>
                     <div class="row">
@@ -43,8 +43,8 @@
                                         <th>Fullname</th>
                                         <th>Address</th>
                                         <th>Contact#</th>
-                                        <th>1 Month Deposit</th>
-                                        <th>1 Month Advance</th>
+                                        <th>Duration</th>
+                                        <th>Payment</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -55,11 +55,11 @@
                                         <td>Juan Dela Cruz</td>
                                         <td>Poblacion</td>
                                         <td>09630075173</td>
-                                        <td>₱500</td>
-                                        <td>₱500</td>
+                                        <td>3 hours</td>
+                                        <td>₱450</td>
                                         <td>Active</td>
                                         <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editTenants"><i class="fas fa-edit"> Edit</i></button>
+                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editGuests"><i class="fas fa-edit"> Edit</i></button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -67,7 +67,7 @@
                                         <td>Mary Jane Abik</td>
                                         <td>Ubay</td>
                                         <td>09630075173</td>
-                                        <td>₱500</td>
+                                        <td>4 hours</td>
                                         <td>₱500</td>
                                         <td>Active</td>
                                         <td>
@@ -79,8 +79,8 @@
                                         <td>Kiver Bolay-og Bola</td>
                                         <td>Talibon</td>
                                         <td>09630075173</td>
-                                        <td>₱500</td>
-                                        <td>₱500</td>
+                                        <td>3 hours</td>
+                                        <td>₱450</td>
                                         <td>Active</td>
                                         <td>
                                             <button class="btn btn-block"><i class="fas fa-edit"> Edit</i></button>
@@ -91,11 +91,11 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modal-addTenants">
+                    <div class="modal fade" id="modal-addGuests">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><i class="fas fa-plus-circle"> Add Tenants</i></h4>
+                                    <h4 class="modal-title"><i class="fas fa-plus-circle"> Add Guests</i></h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -128,7 +128,7 @@
                                             <div class="form-group">
                                                 <label id="labelcontact" for="contact">Contact #:</label>
                                                 <span id="spancontact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
-                                                <input class="form-control" id="contact" type="text" name="contact" placeholder="Ex. 9630075784" 
+                                                <input class="form-control" id="contact" type="number" name="contact" placeholder="Ex. 9630075784" 
                                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                                 maxlength = "11"
                                                 require>
@@ -144,8 +144,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label id="labeldeposit" for="deposit">1 Month Deposit:</label>
-                                                <input class="form-control" id="deposit" type="number" name="deposit" placeholder="Ex. 500" require>
+                                                <label id="labelduration" for="duration">Duration Hour:</label>
+                                                <input class="form-control" id="duration" type="number" name="duration" placeholder="Ex. 2" require>
                                             </div>
                                         </div>
                                     </div>
@@ -158,8 +158,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label id="labeladvance" for="advance">1 Month Advance:</label>
-                                                <input class="form-control" id="advance" type="number" name="advance" placeholder="Ex. 500" require>
+                                                <label id="labelpayment" for="payment">Payment:</label>
+                                                <input class="form-control" id="payment" type="number" name="payment" placeholder="Ex. 500" require>
                                             </div>
                                         </div>
                                     </div>
@@ -172,11 +172,11 @@
                         </div>
                     </div>
 
-                    <div class="modal fade" id="modal-editTenants">
+                    <div class="modal fade" id="modal-editGuests">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><i class="fas fa-edit"> Edit Tenants</i></h4>
+                                    <h4 class="modal-title"><i class="fas fa-edit"> Edit Guests</i></h4>
                                 </div>
                                 <div class="modal-body">
                                     <div class="row">
@@ -209,7 +209,7 @@
                                             <div class="form-group">
                                                 <label id="labele_contact" for="e_contact">Contact #:</label>
                                                 <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
-                                                <input class="form-control" id="e_contact" type="text" name="e_contact" placeholder="Ex. 9630075784" 
+                                                <input class="form-control" id="e_contact" type="number" name="e_contact" placeholder="Ex. 9630075784" 
                                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                                 maxlength = "11"
                                                 require>
@@ -225,8 +225,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label id="labele_deposit" for="e_deposit">1 Month Deposit:</label>
-                                                <input class="form-control" id="e_deposit" type="number" name="e_deposit" placeholder="Ex. 500" require>
+                                                <label id="labele_duration" for="e_duration">Duration Hour:</label>
+                                                <input class="form-control" id="e_duration" type="number" name="e_duration" placeholder="Ex. 2" require>
                                             </div>
                                         </div>
                                     </div>
@@ -239,8 +239,8 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <label id="labele_advance" for="e_advance">1 Month Advance:</label>
-                                                <input class="form-control" id="e_advance" type="number" name="e_advance" placeholder="Ex. 500" require>
+                                                <label id="labele_payment" for="e_payment">Payment:</label>
+                                                <input class="form-control" id="e_payment" type="number" name="e_payment" placeholder="Ex. 500" require>
                                             </div>
                                         </div>
                                     </div>
@@ -270,24 +270,24 @@
             $('#fname').val('');
             $('#contact').val('');
             $('#mname').val('');
-            $('#deposit').val('');
+            $('#duration').val('');
             $('#lname').val('');
-            $('#advance').val('');
+            $('#payment').val('');
 
             $('#labelroom').removeClass('labelcolorinputted');
             $('#labeladdress').removeClass('labelcolorinputted');
             $('#labelfname').removeClass('labelcolorinputted');
             $('#labelcontact').removeClass('labelcolorinputted');
             $('#labelmname').removeClass('labelcolorinputted');
-            $('#labeldeposit').removeClass('labelcolorinputted');
+            $('#labelduration').removeClass('labelcolorinputted');
             $('#labellname').removeClass('labelcolorinputted');
-            $('#labeladvance').removeClass('labelcolorinputted');
+            $('#labelpayment').removeClass('labelcolorinputted');
         });
     </script>
     <script>
-        $('#tenants').addClass('sidebaractive');
-        $('#tenantsp').addClass('sidebarblacktext');
-        $('#tenantsi').addClass('sidebarblacktext');
+        $('#guests').addClass('sidebaractive');
+        $('#guestsp').addClass('sidebarblacktext');
+        $('#guestsi').addClass('sidebarblacktext');
 
         $('#room').change(function(event){
             var roomvalue = $('#room').val();
@@ -342,12 +342,12 @@
             }
         });
 
-        $('#deposit').keyup(function(event){
-            var depositvalue = $('#deposit').val();
-            if(depositvalue.length > 0){
-                $('#labeldeposit').addClass('labelcolorinputted');
+        $('#duration').keyup(function(event){
+            var durationvalue = $('#duration').val();
+            if(durationvalue.length > 0){
+                $('#labelduration').addClass('labelcolorinputted');
             }else{
-                $('#labeldeposit').removeClass('labelcolorinputted');
+                $('#labelduration').removeClass('labelcolorinputted');
             }
         });
 
@@ -360,12 +360,12 @@
             }
         });
 
-        $('#advance').keyup(function(event){
-            var advancevalue = $('#advance').val();
-            if(advancevalue.length > 0){
-                $('#labeladvance').addClass('labelcolorinputted');
+        $('#payment').keyup(function(event){
+            var paymentvalue = $('#payment').val();
+            if(paymentvalue.length > 0){
+                $('#labelpayment').addClass('labelcolorinputted');
             }else{
-                $('#labeladvance').removeClass('labelcolorinputted');
+                $('#labelpayment').removeClass('labelcolorinputted');
             }
         });
 
@@ -423,12 +423,12 @@
             }
         });
 
-        $('#e_deposit').keyup(function(event){
-            var e_depositvalue = $('#e_deposit').val();
-            if(e_depositvalue.length > 0){
-                $('#labele_deposit').addClass('labelcolorinputted');
+        $('#e_duration').keyup(function(event){
+            var e_durationvalue = $('#e_duration').val();
+            if(e_durationvalue.length > 0){
+                $('#labele_duration').addClass('labelcolorinputted');
             }else{
-                $('#labele_deposit').removeClass('labelcolorinputted');
+                $('#labele_duration').removeClass('labelcolorinputted');
             }
         });
 
@@ -441,12 +441,12 @@
             }
         });
 
-        $('#e_advance').keyup(function(event){
-            var e_advancevalue = $('#e_advance').val();
-            if(e_advancevalue.length > 0){
-                $('#labele_advance').addClass('labelcolorinputted');
+        $('#e_payment').keyup(function(event){
+            var e_paymentvalue = $('#e_payment').val();
+            if(e_paymentvalue.length > 0){
+                $('#labele_payment').addClass('labelcolorinputted');
             }else{
-                $('#labele_advance').removeClass('labelcolorinputted');
+                $('#labele_payment').removeClass('labelcolorinputted');
             }
         });
 
