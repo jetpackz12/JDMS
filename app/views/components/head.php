@@ -45,6 +45,8 @@
   <link rel="stylesheet" href="<?php echo ROOT.BOOTSTRAP; ?>plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
   <!-- Toastr -->
   <link rel="stylesheet" href="<?php echo ROOT.BOOTSTRAP; ?>plugins/toastr/toastr.min.css">
+  <!-- Ekko Lightbox -->
+  <link rel="stylesheet" href="<?php echo ROOT.BOOTSTRAP; ?>plugins/ekko-lightbox/ekko-lightbox.css">
   
   <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo.PNG">
 

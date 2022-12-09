@@ -62,3 +62,6 @@
 <!-- Toastr -->
 <script src="<?php echo ROOT.BOOTSTRAP; ?>plugins/toastr/toastr.min.js"></script>
 
+<!-- Ekko Lightbox -->
+<script src="<?php echo ROOT.BOOTSTRAP; ?>plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- Page specific script -->

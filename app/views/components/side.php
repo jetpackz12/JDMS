@@ -21,14 +21,14 @@
             </a>
           </li>
 
-          <li class="nav-item has-treeview room_type">
+          <!-- <li class="nav-item has-treeview room_type">
             <a href="<?php echo ROOT; ?>roomtype" class="nav-link" id="room_type">
               <i id="room_typei" class="nav-icon fas fa-bookmark"></i>
               <p id="room_typep">
                 Room Types
               </p>
             </a>
-          </li>
+          </li> -->
 
           <li class="nav-item has-treeview rooms">
             <a href="<?php echo ROOT; ?>rooms" class="nav-link" id="rooms">
