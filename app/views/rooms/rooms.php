@@ -419,7 +419,7 @@
                     case "success":
                         Toast.fire({
                             icon: 'success',
-                            title: 'Add room success!'
+                            title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspAdd room success!'
                         });
                             setTimeout(function() {
                             // body...

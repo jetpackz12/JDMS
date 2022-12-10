@@ -27,5 +27,20 @@ class getDataModel extends model
 
     }
 
+    public function getTenants(){
+        $data=[];
+        $sql = "SELECT * FROM `tenants`";
+        $result = $this->con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()) {
+               $data[] = $row;
+            }
+        }
+
+        $this->con->close();
+        return $data;
+
+    }
+
 }
 ?>

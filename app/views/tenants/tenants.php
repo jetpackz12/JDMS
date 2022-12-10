@@ -50,42 +50,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Juan Dela Cruz</td>
-                                        <td>Poblacion</td>
-                                        <td>09630075173</td>
-                                        <td>₱500</td>
-                                        <td>₱500</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editTenants"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Mary Jane Abik</td>
-                                        <td>Ubay</td>
-                                        <td>09630075173</td>
-                                        <td>₱500</td>
-                                        <td>₱500</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button class="btn btn-block"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Kiver Bolay-og Bola</td>
-                                        <td>Talibon</td>
-                                        <td>09630075173</td>
-                                        <td>₱500</td>
-                                        <td>₱500</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button class="btn btn-block"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
+                                    <?php foreach($data2['all'] as $data2){ 
+                                        if($data2['status'] == 1){?>
+                                        <tr>
+                                            <td><?php echo $data2['room_number'];?></td>
+                                            <td><?php echo $data2['fname']." ".$data2['mname']." ".$data2['lname'];?></td>
+                                            <td><?php echo $data2['address'];?></td>
+                                            <td><?php echo $data2['contact_number'];?></td>
+                                            <td>₱<?php echo $data2['deposit'];?></td>
+                                            <td>₱<?php echo $data2['advance'];?></td>
+                                            <td>
+                                                <?php
+                                                    if($data2['status'] == 1)
+                                                    echo "Active";
+                                                    else echo "Inactive";
+                                                ?>
+                                            </td>
+                                            <td>
+                                            <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-editTenants" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-edit"> Edit</i></button>
+                                            <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-deleteTenants" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-trash"> Disabled</i></button>
+                                            </td>
+                                        </tr>
+                                    <?php }}?>
                                 </tbody>
                             </table>
                         </div>
@@ -97,77 +83,81 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-plus-circle"> Add Tenants</i></h4>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labelroom" for="room">Room:</label>
-                                                <select class="form-control" name="room" id="room">
-                                                    <option value="" selected disabled>--Select Room--</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                </select>
+                                <form class="store" action="<?php echo ROOT; ?>tenants/store" method="post">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labelroom" for="room">Room:</label>
+                                                    <select class="form-control" name="room" id="room" required>
+                                                        <option value="" selected disabled>--Select Room--</option>
+                                                            <?php foreach($data['all'] as $data){ 
+                                                                if($data['status'] == '1'){?>
+                                                                <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']; ?></option>
+                                                            <?php }
+                                                                } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labeladdress" for="address">Address:</label>
+                                                    <input class="form-control" id="address" type="text" name="address" placeholder="Ex. Poblacion" required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labeladdress" for="address">Address:</label>
-                                                <input class="form-control" id="address" type="text" name="address" placeholder="Ex. Poblacion" require>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labelfname" for="fname">Firstname:</label>
+                                                    <input class="form-control" id="fname" type="text" name="fname" placeholder="Ex. Juan" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labelcontact" for="contact">Contact #:</label>
+                                                    <span id="spancontact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
+                                                    <input class="form-control" id="contact" type="text" name="contact" placeholder="Ex. 9630075784" 
+                                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                    maxlength = "11"
+                                                    required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labelmname" for="mname">Middlename:</label>
+                                                    <input class="form-control" id="mname" type="text" name="mname" placeholder="Ex. Dela" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labeldeposit" for="deposit">1 Month Deposit:</label>
+                                                    <input class="form-control" id="deposit" type="number" name="deposit" placeholder="Ex. 500" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labellname" for="lname">Lastname:</label>
+                                                    <input class="form-control" id="lname" type="text" name="lname" placeholder="Ex. Cruz" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labeladvance" for="advance">1 Month Advance:</label>
+                                                    <input class="form-control" id="advance" type="number" name="advance" placeholder="Ex. 500" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labelfname" for="fname">Firstname:</label>
-                                                <input class="form-control" id="fname" type="text" name="fname" placeholder="Ex. Juan" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labelcontact" for="contact">Contact #:</label>
-                                                <span id="spancontact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
-                                                <input class="form-control" id="contact" type="text" name="contact" placeholder="Ex. 9630075784" 
-                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                maxlength = "11"
-                                                require>
-                                            </div>
-                                        </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="save" class="btn btn-primary">Save</button>
+                                        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labelmname" for="mname">Middlename:</label>
-                                                <input class="form-control" id="mname" type="text" name="mname" placeholder="Ex. Dela" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labeldeposit" for="deposit">1 Month Deposit:</label>
-                                                <input class="form-control" id="deposit" type="number" name="deposit" placeholder="Ex. 500" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labellname" for="lname">Lastname:</label>
-                                                <input class="form-control" id="lname" type="text" name="lname" placeholder="Ex. Cruz" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labeladvance" for="advance">1 Month Advance:</label>
-                                                <input class="form-control" id="advance" type="number" name="advance" placeholder="Ex. 500" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" id="save" class="btn btn-primary">Save</button>
-                                    <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -178,84 +168,109 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-edit"> Edit Tenants</i></h4>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_room" for="e_room">Room:</label>
-                                                <select class="form-control" name="e_room" id="e_room" require>
-                                                    <option value="" selected disabled>--Select Room--</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                </select>
+                                <form class="update" action="<?php echo ROOT; ?>tenants/update" method="post">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <input type="text" id="room_id" name="room_id" hidden>
+                                            <input type="text" id="e_id" name="e_id" hidden>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_room" for="e_room">Room:</label>
+                                                    <span class="labelcolorinvalid" id="spane_room"> This room is already Occupy!</span>
+                                                    <select class="form-control" name="e_room" id="e_room" required>
+                                                        <option value="" selected disabled>--Select Room--</option>
+                                                        <?php foreach($data3['all'] as $data){ ?>
+                                                            <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']; ?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_address" for="e_address">Address:</label>
+                                                    <input class="form-control" id="e_address" type="text" name="e_address" placeholder="Ex. Poblacion" required>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_address" for="e_address">Address:</label>
-                                                <input class="form-control" id="e_address" type="text" name="e_address" placeholder="Ex. Poblacion" require>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_fname" for="e_fname">Firstname:</label>
+                                                    <input class="form-control" id="e_fname" type="text" name="e_fname" placeholder="Ex. Juan" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_contact" for="e_contact">Contact #:</label>
+                                                    <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
+                                                    <input class="form-control" id="e_contact" type="text" name="e_contact" placeholder="Ex. 9630075784" 
+                                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                    maxlength = "11"
+                                                    required>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_mname" for="e_mname">Middlename:</label>
+                                                    <input class="form-control" id="e_mname" type="text" name="e_mname" placeholder="Ex. Dela" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_deposit" for="e_deposit">1 Month Deposit:</label>
+                                                    <input class="form-control" id="e_deposit" type="number" name="e_deposit" placeholder="Ex. 500" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_lname" for="e_lname">Lastname:</label>
+                                                    <input class="form-control" id="e_lname" type="text" name="e_lname" placeholder="Ex. Cruz" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_advance" for="e_advance">1 Month Advance:</label>
+                                                    <input class="form-control" id="e_advance" type="number" name="e_advance" placeholder="Ex. 500" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                                    <label id="labelstatus" for="status">Status:</label>
+                                                    <select class="form-control" name="status" id="status" required>
+                                                        <option value="0">Not Active</option>
+                                                        <option value="1">Active</option>
+                                                    </select>
+                                                </div> -->
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_fname" for="e_fname">Firstname:</label>
-                                                <input class="form-control" id="e_fname" type="text" name="e_fname" placeholder="Ex. Juan" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_contact" for="e_contact">Contact #:</label>
-                                                <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
-                                                <input class="form-control" id="e_contact" type="text" name="e_contact" placeholder="Ex. 9630075784" 
-                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                maxlength = "11"
-                                                require>
-                                            </div>
-                                        </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="update" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_mname" for="e_mname">Middlename:</label>
-                                                <input class="form-control" id="e_mname" type="text" name="e_mname" placeholder="Ex. Dela" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_deposit" for="e_deposit">1 Month Deposit:</label>
-                                                <input class="form-control" id="e_deposit" type="number" name="e_deposit" placeholder="Ex. 500" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_lname" for="e_lname">Lastname:</label>
-                                                <input class="form-control" id="e_lname" type="text" name="e_lname" placeholder="Ex. Cruz" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_advance" for="e_advance">1 Month Advance:</label>
-                                                <input class="form-control" id="e_advance" type="number" name="e_advance" placeholder="Ex. 500" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                                <label id="labelstatus" for="status">Status:</label>
-                                                <select class="form-control" name="status" id="status" require>
-                                                    <option value="0">Not Active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                            </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="modal-deleteTenants">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><i class="fas fa-edit"> Disabled Tenants</i></h4>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" id="update" class="btn btn-primary">Save</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
+                                <form class="delete" action="<?php echo ROOT; ?>tenants/delete" method="post">
+                                    <div class="modal-body">
+                                            <input type="text" id="d_id" name="d_id" hidden>
+                                            <input type="text" id="d_room_id" name="d_room_id" hidden>
+                                        <span>Are you sure you want to disabled this tenant?</span>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="update" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -288,6 +303,13 @@
         $('#tenants').addClass('sidebaractive');
         $('#tenantsp').addClass('sidebarblacktext');
         $('#tenantsi').addClass('sidebarblacktext');
+
+        var arr = [];
+        <?php foreach($data4['all'] as $data){
+            if($data['status'] == '0'){?>
+            arr.push("<?php echo $data['room_num']; ?>");
+        <?php }} ?>
+        // console.log(arr);
 
         $('#room').change(function(event){
             var roomvalue = $('#room').val();
@@ -323,13 +345,15 @@
                 if(contactvalue.charAt(0) != '9'){
                     $('#spancontact').show();
                     $('#save').removeClass('btn-primary');
-                    $('#save').addClass('disabled btn-secondary');
+                    $('#save').addClass('btn-secondary');
+                    $('#save').prop('disabled', true);
                 }
             }else{
                 $('#labelcontact').removeClass('labelcolorinputted');
                 $('#spancontact').hide();
-                $('#save').removeClass('disabled btn-secondary');
+                $('#save').removeClass('btn-secondary');
                 $('#save').addClass('btn-primary');
+                $('#save').prop('disabled', false);
             }
         });
 
@@ -372,8 +396,27 @@
 
         $('#e_room').change(function(event){
             var e_roomvalue = $('#e_room').val();
+            var e_room_id = $('#room_id').val();
+            var index = arr.indexOf(e_room_id);
+            if (index > -1) {
+                arr.splice(index, 1);
+            }
             if(e_roomvalue.length > 0){
                 $('#labele_room').addClass('labelcolorinputted');
+                switch (arr.includes(e_roomvalue)){
+                    case true:
+                        $('#spane_room').show();
+                        $('#update').removeClass('btn-primary');
+                        $('#update').addClass('btn-secondary');
+                        $('#update').prop('disabled', true);
+                    break;
+                    case false:
+                        $('#spane_room').hide();
+                        $('#update').removeClass('btn-secondary');
+                        $('#update').addClass('btn-primary');
+                        $('#update').prop('disabled', false);
+                    break;
+                }
             }else{
                 $('#labele_room').removeClass('labelcolorinputted');
             }
@@ -404,13 +447,15 @@
                 if(e_contactvalue.charAt(0) != '9'){
                     $('#spane_contact').show();
                     $('#update').removeClass('btn-primary');
-                    $('#update').addClass('disabled btn-secondary');
+                    $('#update').addClass('btn-secondary');
+                    $('#update').prop('disabled', true);
                 }
             }else{
                 $('#labele_contact').removeClass('labelcolorinputted');
                 $('#spane_contact').hide();
-                $('#update').removeClass('disabled btn-secondary');
+                $('#update').removeClass('btn-secondary');
                 $('#update').addClass('btn-primary');
+                $('#update').prop('disabled', false);
             }
         });
 
@@ -460,6 +505,204 @@
         });
 
     </script>
+
+<script>
+  
+  $('.store').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspAdd Tenants success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1500);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Add Tenants view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1500);
+                }
+        
+        }
+    });
+
+});
+</script>
+
+<script>
+        $(".edit").click(function(){
+        var id = $(this).attr('data-id');
+        // console.log(id);
+        $.ajax({
+          type:'post',
+          url: '<?php echo ROOT; ?>tenants/edit',
+          data: {id:id},
+          dataType:'json',
+          success:function(data) {
+
+            // console.log(data);
+            $('#e_id').val(data.id);
+            $('#room_id').val(data.room_number);
+            $('#e_room').val(data.room_number);
+            $('#e_fname').val(data.fname);
+            $('#e_mname').val(data.mname);
+            $('#e_lname').val(data.lname);
+            $('#e_address').val(data.address);
+            $('#e_contact').val(data.contact_number);
+            $('#e_deposit').val(data.deposit);
+            $('#e_advance').val(data.advance);
+
+            $('#d_id').val(data.id);
+            $('#d_room_id').val(data.room_number);
+
+            
+            $('#labele_contact').removeClass('labelcolorinputted');
+            $('#spane_contact').hide();
+            $('#update').removeClass('btn-secondary');
+            $('#update').addClass('btn-primary');
+            $('#update').prop('disabled', false);
+
+          }
+
+        });
+      });
+    </script>
+
+<script>
+
+  $('.update').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspUpdate Tenants success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1500);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Update Tenants view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1500);
+                }
+        
+        }
+    });
+
+});
+</script>
+
+<script>
+  
+  $('.delete').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDisable Tenant success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1500);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Disable Tenant view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1500);
+                }
+        
+        }
+    });
+
+});
+</script>
 
     <script>
         $(function () {
