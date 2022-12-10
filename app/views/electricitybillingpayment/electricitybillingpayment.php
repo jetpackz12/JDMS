@@ -48,36 +48,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($data2['all'] as $data2){?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Juan Dela Cruz</td>
-                                        <td>435</td>
-                                        <td>₱750</td>
-                                        <td>11/17/2022</td>
+                                        <td><?php echo $data2['room_number'];?></td>
+                                        <td><?php echo $data2['fname']." ". $data2['mname']." ". $data2['lname'];?></td>
+                                        <td><?php echo $data2['unit_consumed'];?></td>
+                                        <td>₱<?php echo $data2['amount'];?></td>
+                                        <td><?php echo $data2['due_date'];?></td>
                                         <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editPayments"><i class="fas fa-edit"> Edit</i></button>
+                                            <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-editPayments" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-edit"> Edit</i></button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Mary Jane Abik</td>
-                                        <td>435</td>
-                                        <td>₱750</td>
-                                        <td>11/17/2022</td>
-                                        <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editPayments"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Kiver Bolay-og Bola</td>
-                                        <td>435</td>
-                                        <td>₱750</td>
-                                        <td>11/17/2022</td>
-                                        <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editPayments"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -89,33 +71,37 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-plus-circle"> Add Payments</i></h4>
                                 </div>
-                                <div class="modal-body">
-                                            <div class="form-group">
-                                                <label id="labeltenant" for="tenant">Tenant:</label>
-                                                <select class="form-control select2bs4" name="tenant" id="tenant" style="width: 100%;" require>
-                                                    <option value="" selected="selected" disabled>--Select Tenant--</option>
-                                                    <option>Alaska</option>
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labelunit_consumed" for="unit_consumed">Unit Consumed:</label>
-                                                <input class="form-control" id="unit_consumed" type="number" name="unit_consumed" placeholder="Ex. 435" require>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labelamount" for="amount">Amount:</label>
-                                                <input class="form-control" id="amount" type="number" name="amount" placeholder="Ex. 450" require>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labeldue_date" for="due_date">Due Date:</label>
-                                                <input class="form-control" id="due_date" type="date" name="due_date" require>
-                                            </div>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" id="save" class="btn btn-primary">Save</button>
-                                    <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
+                                <form class="store" action="<?php echo ROOT; ?>electricitybillingpayment/store" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label id="labeltenant" for="tenant">Tenant:</label>
+                                            <select class="form-control select2bs4" name="tenant" id="tenant" style="width: 100%;" required>
+                                                <option value="" selected="selected" disabled>--Select Tenant--</option>
+                                                <?php foreach($data['all'] as $data){?>
+                                                    <option value="<?php echo $data['id'];?>">
+                                                        <?php echo "( Room ".$data['room_number']." ) ".$data['fname']." ".$data['mname']." ".$data['lname'];?>
+                                                    </option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labelunit_consumed" for="unit_consumed">Unit Consumed:</label>
+                                            <input class="form-control" id="unit_consumed" type="number" name="unit_consumed" placeholder="Ex. 435" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labelamount" for="amount">Amount:</label>
+                                            <input class="form-control" id="amount" type="number" name="amount" placeholder="Ex. 450" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labeldue_date" for="due_date">Due Date:</label>
+                                            <input class="form-control" id="due_date" type="date" name="due_date" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="save" class="btn btn-primary">Save</button>
+                                        <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -126,33 +112,36 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-plus-circle"> Edit Payments</i></h4>
                                 </div>
-                                <div class="modal-body">
-                                            <div class="form-group">
-                                                <label id="labele_tenant" for="e_tenant">Tenant:</label>
-                                                <select class="form-control select2bs4" name="e_tenant" id="e_tenant" style="width: 100%;" require>
-                                                    <option value="" selected="selected" disabled>--Select Tenant--</option>
-                                                    <option>Alaska</option>
-                                                    <option>California</option>
-                                                    <option>Delaware</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labele_unit_consumed" for="e_unit_consumed">Unit Consumed:</label>
-                                                <input class="form-control" id="e_unit_consumed" type="number" name="e_unit_consumed" placeholder="Ex. 435" require>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labele_amount" for="e_amount">Amount:</label>
-                                                <input class="form-control" id="e_amount" type="number" name="e_amount" placeholder="Ex. 450" require>
-                                            </div>
-                                            <div class="form-group">
-                                                <label id="labele_due_date" for="e_due_date">Due Date:</label>
-                                                <input class="form-control" id="e_due_date" type="date" name="e_due_date" require>
-                                            </div>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" id="update" class="btn btn-primary">Save</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
+                                <form class="update" action="<?php echo ROOT; ?>electricitybillingpayment/update" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <input type="text" id="e_id" name="e_id" hidden>
+                                            <label id="labele_tenant" for="e_tenant">Tenant:</label>
+                                            <select class="form-control " name="e_tenant" id="e_tenant" style="width: 100%;" required>
+                                                <option value="" selected="selected" disabled>--Select Tenant--</option>
+                                                <?php foreach($data3['all'] as $data){?>
+                                                    <option value="<?php echo $data['id'];?>"><?php echo "( Room ".$data['room_number']." ) ".$data['fname']." ".$data['mname']." ".$data['lname'];?></option>
+                                                <?php }?>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labele_unit_consumed" for="e_unit_consumed">Unit Consumed:</label>
+                                            <input class="form-control" id="e_unit_consumed" type="number" name="e_unit_consumed" placeholder="Ex. 435" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labele_amount" for="e_amount">Amount:</label>
+                                            <input class="form-control" id="e_amount" type="number" name="e_amount" placeholder="Ex. 450" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label id="labele_due_date" for="e_due_date">Due Date:</label>
+                                            <input class="form-control" id="e_due_date" type="date" name="e_due_date" required>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="update" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -257,6 +246,134 @@
             }
         });
     </script>
+    <script>
+  
+  $('.store').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspAdd Electricity Bill Payment success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1000);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Add Electricity Bill Payment view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1000);
+                }
+        
+        }
+    });
+
+});
+</script>
+
+<script>
+
+  $('.update').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: 'Update Electricity Bill Payment success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1000);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Update Electricity Bill Payment view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1000);
+                }
+        
+        }
+    });
+
+});
+</script>
+<script>
+        $(".edit").click(function(){
+        var id = $(this).attr('data-id');
+        // console.log(id);
+        $.ajax({
+          type:'post',
+          url: '<?php echo ROOT; ?>electricitybillingpayment/edit',
+          data: {id:id},
+          dataType:'json',
+          success:function(data) {
+
+            // console.log(data);
+            $('#e_id').val(data.id);
+            $('#e_tenant').val(data.tenants_id);
+            $('#e_unit_consumed').val(data.unit_consumed);
+            $('#e_amount').val(data.amount);
+            $('#e_due_date').val(data.due_date);
+
+          }
+
+        });
+      });
+</script>
      <script>
         $(function () {
             $('#example1').DataTable({

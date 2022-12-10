@@ -86,5 +86,28 @@ class getDataModel extends model
 
     }
 
+    public function getElectricityBillPayment(){
+        $data=[];
+
+        $sql = "SELECT electricitybill.`id`, electricitybill.`tenants_id`, tenants.`room_number`, tenants.`fname`,
+        tenants.`mname`, tenants.`lname`,electricitybill.`unit_consumed`, electricitybill.`amount`, 
+        electricitybill.`due_date`, electricitybill.`date`,
+        electricitybill.`time`, electricitybill.`status` 
+        FROM `electricitybill` 
+        INNER JOIN tenants 
+        ON electricitybill.tenants_id = tenants.id";
+
+        $result = $this->con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()) {
+               $data[] = $row;
+            }
+        }
+
+        $this->con->close();
+        return $data;
+
+    }
+
 }
 ?>
