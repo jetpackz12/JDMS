@@ -33,8 +33,8 @@
                         <div class="col-5">
                             <select class="form-control" name="transaction" id="transaction" require>
                                 <option value="" selected disabled>--Sort Availability--</option>
-                                <option value="0">Occupy</option>
-                                <option value="1">Available</option>
+                                <option value="Standard">Standard</option>
+                                <option value="Premium">Premium</option>
                                 <option value="3">Reset</option>
                             </select>
                         </div>
@@ -48,29 +48,30 @@
                     <div class="row">
                         <?php foreach($data['all'] as $data) {?>
                             <?php if(isset($_SESSION['sort'])){
-                                if($_SESSION['sort'] == $data['status']){
+                                if($_SESSION['sort'] == $data['type']){
                                 ?>
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">
-                                            <?php if($data['status'] == 0)
-                                                    echo '<span class="text-success">(Occupy)</span>';
-                                                    else echo '<span class="text-primary">(Avialable)</span>';?>
-                                            Room <?php echo $data['room_num'];?></h3>
+                                            Room: <?php echo $data['room_num'];?></h3>
                                             <br>
                                             <!-- /.card-tools -->
                                             <span>Description: <u> <?php echo $data['description'];?></u></span>
+                                            <br>
+                                            <span>Capacity: <u> <?php echo $data['occupies'] . "/" . $data['capacity'];?></u></span>
+                                            <br>
+                                            <span>Type: <u> <?php echo $data['type'];?></u></span>
                                         </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                     <div class="row">
-                                        <a href="<?php echo $data['image'];?>" data-toggle="lightbox" data-title="Room 1" data-gallery="gallery">
+                                        <a href="<?php echo $data['image'];?>" data-toggle="lightbox" data-title="Room  <?php echo $data['room_num'];?>" data-gallery="gallery">
                                             <img src="<?php echo $data['image'];?>" class="img-fluid mb-2 img" alt="white sample"/>
                                         </a>
                                     </div>
                                     <div class="modal-footer justify-content-between">
-                                            <button type="submit" class="btn btn-primary add edit" data-toggle="modal" data-target="#modal-editRoomType" data-id="<?php echo $data['id']; ?>"><i class="fas fa-edit"></i> Edit</button>
+                                            <button type="submit" class="btn btn-primary add edit" data-toggle="modal" data-target="#modal-editRoomType" data-id="<?php echo $data['id']; ?>" ><i class="fas fa-edit"></i> Edit</button>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
@@ -85,13 +86,14 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <h3 class="card-title">
-                                            <?php if($data['status'] == 0)
-                                                    echo '<span class="text-success">(Occupy)</span>';
-                                                    else echo '<span class="text-primary">(Avialable)</span>';?>
-                                            Room <?php echo $data['room_num'];?></h3>
+                                            Room: <?php echo $data['room_num'];?></h3>
                                             <br>
                                             <!-- /.card-tools -->
                                             <span>Description: <u> <?php echo $data['description'];?></u></span>
+                                            <br>
+                                            <span>Capacity: <u> <?php echo $data['occupies'] . "/" . $data['capacity'];?></u></span>
+                                            <br>
+                                            <span>Type: <u> <?php echo $data['type'];?></u></span>
                                         </div>
                                     <!-- /.card-header -->
                                     <div class="card-body">
@@ -143,6 +145,10 @@
                                             <input class="form-control" id="description" type="text" name="description" placeholder="Enter Room Description" required>
                                         </div>
                                         <div class="form-group">
+                                            <label id="labelcapacity" for="capacity">Room Capacity:</label>
+                                            <input class="form-control" id="capacity" type="number" name="capacity" placeholder="Enter Room capacity" required>
+                                        </div>
+                                        <div class="form-group">
                                             <label id="labeltype" for="type">Type:</label>
                                             <select class="form-control" name="type" id="type" required>
                                                 <option value="" selected disabled>--Select Room Type--</option>
@@ -179,14 +185,19 @@
                                                 </div>
                                             </div>
                                             <input type="text" name="e_id" id="e_id" hidden>
+                                            <input type="text" name="num_room" id="num_room" hidden>
                                             <div class="form-group">
                                                 <label id="labele_room_num" for="e_room_num">Room Number:</label>
-                                                <span class="labelcolorinvalid" id="spane_room"> Invalid Room Number!</span>
+                                                <span class="labelcolorinvalid" id="spane_room"> This Room Number is in use!</span>
                                                 <input class="form-control" id="e_room_num" type="number" name="e_room_num" placeholder="Enter Room Number" required>
                                             </div>
                                             <div class="form-group">
                                                 <label id="labele_description" for="e_description">Room Description:</label>
                                                 <input class="form-control" id="e_description" type="text" name="e_description" placeholder="Enter Room Description" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label id="labele_capacity" for="e_capacity">Room Capacity:</label>
+                                                <input class="form-control" id="e_capacity" type="number" name="e_capacity" placeholder="Enter Room capacity" required>
                                             </div>
                                             <div class="form-group">
                                                 <label id="labele_type" for="e_type">Type:</label>
@@ -205,7 +216,7 @@
                                         </div> -->
                                     </div>
                                     <div class="modal-footer justify-content-between">
-                                        <button type="submit" class="btn btn-primary add update">Save</button>
+                                        <button type="submit" id="update" class="btn btn-primary add">Save</button>
                                         <button type="button" class="btn btn-default add" data-dismiss="modal">Close</button>
                                     </div>
                                 </form>
@@ -253,15 +264,21 @@
         $('#rooms').addClass('sidebaractive');
         $('#roomsp').addClass('sidebarblacktext');
         $('#roomsi').addClass('sidebarblacktext');
+        
+        var arr = []
+
+        <?php foreach($data2['all'] as $data){ ?>
+            arr.push("<?php echo $data['room_num']; ?>");
+        <?php } ?>
 
         $('#room_num').keyup(function(event){
             var room_numvalue = $('#room_num').val();
             if(room_numvalue.length > 0){
                 $('#labelroom_num').addClass('labelcolorinputted');
-                $('#spanusername').hide();
+                $('#spanroom').hide();
             }else{
                 $('#labelroom_num').removeClass('labelcolorinputted');
-                $('#spanusername').hide();
+                $('#spanroom').hide();
             }
         });
 
@@ -271,6 +288,15 @@
                 $('#labeldescription').addClass('labelcolorinputted');
             }else{
                 $('#labeldescription').removeClass('labelcolorinputted');
+            }
+        });
+
+        $('#capacity').keyup(function(event){
+            var capacityvalue = $('#capacity').val();
+            if(capacityvalue.length > 0){
+                $('#labelcapacity').addClass('labelcolorinputted');
+            }else{
+                $('#labelcapacity').removeClass('labelcolorinputted');
             }
         });
 
@@ -285,6 +311,11 @@
 
         $('#e_room_num').keyup(function(event){
             var e_room_numvalue = $('#e_room_num').val();
+            var e_room_id = $('#num_room').val();
+            var index = arr.indexOf(e_room_id);
+            if (index > -1) {
+                arr.splice(index, 1);
+            }
             if(e_room_numvalue.length > 0){
                 $('#labele_room_num').addClass('labelcolorinputted');
 
@@ -294,8 +325,25 @@
                 //     $('#spane_room').show();
                 //     $('.update')addClass('disabled');
                 // }
+                switch (arr.includes(e_room_numvalue)){
+                    case true:
+                        $('#spane_room').show();
+                        $('#update').removeClass('btn-primary');
+                        $('#update').addClass('btn-secondary');
+                        $('#update').prop('disabled', true);
+                    break;
+                    case false:
+                        $('#spane_room').hide();
+                        $('#update').removeClass('btn-secondary');
+                        $('#update').addClass('btn-primary');
+                        $('#update').prop('disabled', false);
+                    break;
+                }
+
             }else{
                 $('#labele_room_num').removeClass('labelcolorinputted');
+                $('#spane_room').hide();
+                $('#update').prop('disabled', false);
             }
         });
 
@@ -305,6 +353,15 @@
                 $('#labele_description').addClass('labelcolorinputted');
             }else{
                 $('#labele_description').removeClass('labelcolorinputted');
+            }
+        });
+
+        $('#e_capacity').keyup(function(event){
+            var e_capacityvalue = $('#e_capacity').val();
+            if(e_capacityvalue.length > 0){
+                $('#labele_capacity').addClass('labelcolorinputted');
+            }else{
+                $('#labele_capacity').removeClass('labelcolorinputted');
             }
         });
 
@@ -392,15 +449,17 @@
         
         var fd = new FormData();
         var files = $('#image')[0].files;
-        var roomnum, description, type;
+        var roomnum, description, capacity, type;
         roomnum = $('#room_num').val();
         description = $('#description').val();
+        capacity = $('#capacity').val();
         type = $('#type option:selected').val();
 
         
         fd.append('file',files[0]);
         fd.append('roomnum',roomnum);
         fd.append('description',description);
+        fd.append('capacity',capacity);
         fd.append('type',type);
 
         $.ajax({
@@ -459,10 +518,11 @@
         
         var fd = new FormData();
         var files = $('#e_image')[0].files;
-        var id, roomnum, description, type;
+        var id, roomnum, description, capacity, type;
         id = $('#e_id').val();
         roomnum = $('#e_room_num').val();
         description = $('#e_description').val();
+        capacity = $('#e_capacity').val();
         type = $('#e_type option:selected').val();
 
         
@@ -470,6 +530,7 @@
         fd.append('id',id);
         fd.append('roomnum',roomnum);
         fd.append('description',description);
+        fd.append('capacity',capacity);
         fd.append('type',type);
 
         $.ajax({
@@ -530,8 +591,10 @@
             // console.log(data);
             $('#roome_image').attr('src', data.image);
             $("#e_imagelabel").text(data.image);
+            $("#num_room").val(data.room_num);
             $("#e_room_num").val(data.room_num);
             $("#e_description").val(data.description);
+            $("#e_capacity").val(data.capacity);
             $("#e_type").val(data.type);
             $('#e_id').val(data.id);
             // $("#status").val(data.status);

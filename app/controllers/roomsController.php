@@ -17,7 +17,9 @@ class roomsController extends Controller
 			// $this->controller->view()->view_render('rooms/rooms.php');
 			$object = new getDataModel();
 			$data = ['all'=>$object->getRooms()];
-			$this->controller->view()->render('rooms/rooms.php', $data);
+			$object2 = new getDataModel();
+			$data2 = ['all'=>$object2->getRooms()];
+			$this->controller->view()->render2('rooms/rooms.php', $data, $data2);
 		}else{
 		    $this->controller->view()->view_render('login/login.php');
 		}
@@ -31,6 +33,7 @@ class roomsController extends Controller
 
 			$roomnum = isset($_POST['roomnum'])? $_POST['roomnum'] : '';
 			$description = isset($_POST['description'])? $_POST['description'] : '';
+			$capacity = isset($_POST['capacity'])? $_POST['capacity'] : '';
 			$type = isset($_POST['type'])? $_POST['type'] : '';
 
 			$filename = $_FILES['file']['name'];
@@ -50,6 +53,7 @@ class roomsController extends Controller
 					'response' => $location,
 					'roomnum' => $roomnum,
 					'description' => $description,
+					'capacity' => $capacity,
 					'type' => $type
 				));
 
@@ -88,6 +92,7 @@ class roomsController extends Controller
 		$id = isset($_POST['id'])? $_POST['id'] : '';
 		$roomnum = isset($_POST['roomnum'])? $_POST['roomnum'] : '';
 		$description = isset($_POST['description'])? $_POST['description'] : '';
+		$capacity = isset($_POST['capacity'])? $_POST['capacity'] : '';
 		$type = isset($_POST['type'])? $_POST['type'] : '';
 
 		if(isset($_FILES['file']['name'])){
@@ -110,6 +115,7 @@ class roomsController extends Controller
 					'response' => $location,
 					'roomnum' => $roomnum,
 					'description' => $description,
+					'capacity' => $capacity,
 					'type' => $type
 				));
 
@@ -138,6 +144,7 @@ class roomsController extends Controller
 					'id' => $id,
 					'roomnum' => $roomnum,
 					'description' => $description,
+					'capacity' => $capacity,
 					'type' => $type
 				));
 

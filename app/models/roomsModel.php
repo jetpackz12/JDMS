@@ -18,6 +18,8 @@ class roomsModel extends model
         $image = $param['response'];
         $roomnum = $param['roomnum'];
         $description = $param['description'];
+        $occupies = 0;
+        $capacity = $param['capacity'];
         $type = $param['type'];
         $date = date("yy-m-d");
         $time = date("h:i:sa");
@@ -34,8 +36,8 @@ class roomsModel extends model
                 'message' => 'Invalid room number'
             );
         }else{
-            $sql = "INSERT INTO `rooms`(`image`, `room_num`, `description`, `type`, `date`, `time`, `status`) 
-            VALUES ('". $image ."','". $roomnum ."','". $description ."','". $type ."','". $date ."','". $time ."','". $status ."')";
+            $sql = "INSERT INTO `rooms`(`image`, `room_num`, `description`, `occupies`, `capacity`, `type`, `date`, `time`, `status`) 
+            VALUES ('". $image ."','". $roomnum ."','". $description ."','" . $occupies . "','" . $capacity . "','". $type ."','". $date ."','". $time ."','". $status ."')";
             if ($this->con->query($sql) === TRUE) {
                 $data = array(
                     'result' => 'success',
@@ -67,6 +69,8 @@ class roomsModel extends model
                     'image' => $row['image'],
                     'room_num' => $row['room_num'],
                     'description' => $row['description'],
+                    'occupies' => $row['occupies'],
+                    'capacity' => $row['capacity'],
                     'type' => $row['type'],
                     'date' => $row['date'],
                     'time' => $row['time'],
@@ -85,10 +89,11 @@ class roomsModel extends model
         $image = $param['response'];
         $roomnum = $param['roomnum'];
         $description = $param['description'];
+        $capacity = $param['capacity'];
         $type = $param['type'];
         $data = array();
 
-        $sql = "UPDATE `rooms` SET `image`='" . $image . "',`room_num`='". $roomnum . "',`description`='" . $description . "',`type`='" . $type . "'
+        $sql = "UPDATE `rooms` SET `image`='" . $image . "',`room_num`='". $roomnum . "',`description`='" . $description . "',`capacity`='" . $capacity . "',`type`='" . $type . "'
                  WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
             $data = array(
@@ -110,10 +115,11 @@ class roomsModel extends model
         $id = $param['id'];
         $roomnum = $param['roomnum'];
         $description = $param['description'];
+        $capacity = $param['capacity'];
         $type = $param['type'];
         $data = array();
 
-        $sql = "UPDATE `rooms` SET `room_num`='". $roomnum . "',`description`='" . $description . "',`type`='" . $type . "'
+        $sql = "UPDATE `rooms` SET `room_num`='". $roomnum . "',`description`='" . $description . "',`capacity`='" . $capacity . "',`type`='" . $type . "'
                  WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
             $data = array(
