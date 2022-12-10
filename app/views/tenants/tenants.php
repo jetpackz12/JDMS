@@ -92,8 +92,8 @@
                                                     <select class="form-control" name="room" id="room" required>
                                                         <option value="" selected disabled>--Select Room--</option>
                                                             <?php foreach($data['all'] as $data){ 
-                                                                if($data['status'] == '1'){?>
-                                                                <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']; ?></option>
+                                                                if($data['occupies'] != $data['capacity']){?>
+                                                                <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']." (".$data['type'].")"; ?></option>
                                                             <?php }
                                                                 } ?>
                                                     </select>
@@ -176,11 +176,11 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label id="labele_room" for="e_room">Room:</label>
-                                                    <span class="labelcolorinvalid" id="spane_room"> This room is already Occupy!</span>
+                                                    <span class="labelcolorinvalid" id="spane_room"> This room is already Occupies!</span>
                                                     <select class="form-control" name="e_room" id="e_room" required>
                                                         <option value="" selected disabled>--Select Room--</option>
                                                         <?php foreach($data3['all'] as $data){ ?>
-                                                            <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']; ?></option>
+                                                            <option value="<?php echo $data['id']; ?>">Room <?php echo $data['room_num']." (".$data['type'].")"; ?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -248,7 +248,7 @@
                                     </div>
                                     <div class="modal-footer justify-content-between">
                                         <button type="submit" id="update" class="btn btn-primary">Save</button>
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="button" id="close2" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
                                 </form>
                             </div>
@@ -297,6 +297,13 @@
             $('#labeldeposit').removeClass('labelcolorinputted');
             $('#labellname').removeClass('labelcolorinputted');
             $('#labeladvance').removeClass('labelcolorinputted');
+            
+        });
+    </script>
+    <script>
+        $('#close2').click(function() {
+            $('#spane_room').hide();
+            $('#labele_room').removeClass('labelcolorinputted');
         });
     </script>
     <script>
@@ -304,11 +311,6 @@
         $('#tenantsp').addClass('sidebarblacktext');
         $('#tenantsi').addClass('sidebarblacktext');
 
-        var arr = [];
-        <?php foreach($data4['all'] as $data){
-            if($data['status'] == '0'){?>
-            arr.push("<?php echo $data['room_num']; ?>");
-        <?php }} ?>
         // console.log(arr);
 
         $('#room').change(function(event){
@@ -347,6 +349,12 @@
                     $('#save').removeClass('btn-primary');
                     $('#save').addClass('btn-secondary');
                     $('#save').prop('disabled', true);
+                }else{ 
+                    $('#labelcontact').removeClass('labelcolorinputted');
+                    $('#spancontact').hide();
+                    $('#save').removeClass('btn-secondary');
+                    $('#save').addClass('btn-primary');
+                    $('#save').prop('disabled', false);
                 }
             }else{
                 $('#labelcontact').removeClass('labelcolorinputted');
@@ -395,6 +403,11 @@
 
 
         $('#e_room').change(function(event){
+            var arr = [];
+            <?php foreach($data4['all'] as $data){
+                if($data['occupies'] == $data['capacity']){?>
+                arr.push("<?php echo $data['room_num']; ?>");
+            <?php }} ?>
             var e_roomvalue = $('#e_room').val();
             var e_room_id = $('#room_id').val();
             var index = arr.indexOf(e_room_id);
@@ -449,6 +462,12 @@
                     $('#update').removeClass('btn-primary');
                     $('#update').addClass('btn-secondary');
                     $('#update').prop('disabled', true);
+                }else{
+                    $('#labele_contact').removeClass('labelcolorinputted');
+                    $('#spane_contact').hide();
+                    $('#update').removeClass('btn-secondary');
+                    $('#update').addClass('btn-primary');
+                    $('#update').prop('disabled', false);
                 }
             }else{
                 $('#labele_contact').removeClass('labelcolorinputted');
@@ -536,7 +555,7 @@
                         setTimeout(function() {
                         // body...
                         location.reload();
-                    },1500);
+                    },1000);
                 break;
                 case "failed":
                     $('#spanroom').show();
@@ -550,7 +569,7 @@
                         // body...
                         // location.reload();
                         console.log(data);
-                    },1500);
+                    },1000);
                 }
         
         }
@@ -628,7 +647,7 @@
                         setTimeout(function() {
                         // body...
                         location.reload();
-                    },1500);
+                    },1000);
                 break;
                 case "failed":
                     $('#spanroom').show();
@@ -642,7 +661,7 @@
                         // body...
                         // location.reload();
                         console.log(data);
-                    },1500);
+                    },1000);
                 }
         
         }
@@ -681,7 +700,7 @@
                         setTimeout(function() {
                         // body...
                         location.reload();
-                    },1500);
+                    },1000);
                 break;
                 case "failed":
                     $('#spanroom').show();
@@ -695,7 +714,7 @@
                         // body...
                         // location.reload();
                         console.log(data);
-                    },1500);
+                    },1000);
                 }
         
         }

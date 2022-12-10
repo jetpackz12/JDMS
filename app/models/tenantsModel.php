@@ -33,7 +33,7 @@ class tenantsModel extends model
         VALUES ('" . $room . "','" . $fname . "','" . $mname . "','" . $lname . "','" . $address . "','" . $contact . "'
         ,'" . $deposit . "','" . $advance . "','" . $date . "','" . $time . "','" . $status . "')";
         if ($this->con->query($sql) === TRUE) {
-            $this->updateStatusRoom($room, '0');
+            $this->updateOccupiesRoom($room, '1');
             $data = array(
                 'result' => 'success',
                 'message' => 'success'
@@ -100,11 +100,9 @@ class tenantsModel extends model
          WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
 
-            if($room_id == $room){
-                $this->updateStatusRoom($room_id, '0');
-            } else {
-                $this->updateStatusRoom($room_id, '1');
-                $this->updateStatusRoom($room, '0');
+            if($room_id != $room){
+                $this->updateSubOccupiesRoom($room_id, '1');
+                $this->updateAddOccupiesRoom($room, '1');
             } 
             
             $data = array(
@@ -130,9 +128,9 @@ class tenantsModel extends model
 
         $sql = "UPDATE `tenants` 
         SET `status`='0'
-         WHERE id = '" . $id . "'";
+        WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
-            $this->updateStatusRoom($room_id, '1');
+            $this->updateSubOccupiesRoom($room_id, '1');
             $data = array(
                 'result' => 'success',
                 'message' => 'success'
@@ -147,12 +145,46 @@ class tenantsModel extends model
         return $data;
 	}
 
-    public function updateStatusRoom($id, $status)
+    public function updateAddOccupiesRoom($id, $value)
     {
-        $sql = "UPDATE `rooms` 
-        SET `status`='" . $status . "' 
+        $occupies;
+        $sql="SELECT `occupies` 
+        FROM `rooms` 
         WHERE id = '" . $id . "'";
-        $this->con->query($sql);
+        $result = $this->con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()) {
+                $occupies = $row['occupies']+$value;
+            }
+        }
+
+        // $occupies = $result . $value;
+
+        $sqlupdate = "UPDATE `rooms` 
+        SET `occupies`='" . $occupies. "' 
+        WHERE id = '" . $id . "'";
+        $this->con->query($sqlupdate);
+    }
+
+    public function updateSubOccupiesRoom($id, $value)
+    {
+        $occupies;
+        $sql="SELECT `occupies` 
+        FROM `rooms` 
+        WHERE id = '" . $id . "'";
+        $result = $this->con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()) {
+                $occupies = $row['occupies']-$value;
+            }
+        }
+
+        // $occupies = $result . $value;
+
+        $sqlupdate = "UPDATE `rooms` 
+        SET `occupies`='" . $occupies. "' 
+        WHERE id = '" . $id . "'";
+        $this->con->query($sqlupdate);
     }
 	
 

@@ -391,7 +391,7 @@
                 toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
-                timer: 1500
+                timer: 1000
             });
 
             var fd = new FormData();
@@ -404,7 +404,7 @@
                             title: 'You need to select availability for sorting!'
                         });
                             setTimeout(function() {
-                        },1500);
+                        },1000);
                 break;
                 default:
                         ajax();
@@ -429,7 +429,7 @@
                             });
                                 setTimeout(function() {
                                 location.reload();
-                            },1500);
+                            },1000);
                         }
                     });
            }
@@ -444,7 +444,7 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1000
         });
         
         var fd = new FormData();
@@ -483,7 +483,7 @@
                             setTimeout(function() {
                             // body...
                             location.reload();
-                        },1500);
+                        },1000);
                     break;
                     case "failed":
                         $('#spanroom').show();
@@ -497,7 +497,7 @@
                             // body...
                             // location.reload();
                             console.log(data);
-                        },1500);
+                        },1000);
                 }
 
             }
@@ -513,7 +513,7 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 1500
+            timer: 1000
         });
         
         var fd = new FormData();
@@ -554,7 +554,7 @@
                             setTimeout(function() {
                             // body...
                             location.reload();
-                        },1500);
+                        },1000);
                     break;
                     case "failed":
                         $('#spane_room').show();
@@ -568,7 +568,7 @@
                             // body...
                             // location.reload();
                             console.log(data);
-                        },1500);
+                        },1000);
                 }
 
             }
