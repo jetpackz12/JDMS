@@ -56,7 +56,12 @@
                                             <td><?php echo $data2['prev_reading'];?></td>
                                             <td><?php echo $data2['pres_reading'];?></td>
                                             <td>₱<?php echo $data2['amount'];?></td>
-                                            <td><?php echo $data2['due_date'];?></td>
+                                            <td>
+                                            <?php 
+                                                $new_format = (new DateTime($data2['due_date']))->format('F d, Y');
+                                                echo $new_format;
+                                            ?>
+                                            </td>
                                             <td>
                                             <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-editPayments" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-edit"> Edit</i></button>
                                             </td>

@@ -21,7 +21,7 @@ class roomsModel extends model
         $occupies = 0;
         $capacity = $param['capacity'];
         $type = $param['type'];
-        $date = date("yy-m-d");
+        $date = date("Y-m-d");
         $time = date("h:i:sa");
         $status = 1;
         $data = array();

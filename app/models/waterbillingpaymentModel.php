@@ -20,7 +20,7 @@ class waterbillingpaymentModel extends model
 		$pres_read = $param['pres_read'];
 		$amount = $param['amount'];
 		$due_date = $param['due_date'];
-        $date = date("yy-m-d");
+        $date = date("Y-m-d");
         $time = date("h:i:sa");
         $status = 1;
         $data = array();

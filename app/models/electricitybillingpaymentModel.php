@@ -19,7 +19,7 @@ class electricitybillingpaymentModel extends model
 		$unit_consumed = $param['unit_consumed'];
 		$amount = $param['amount'];
 		$due_date = $param['due_date'];
-        $date = date("yy-m-d");
+        $date = date("Y-m-d");
         $time = date("h:i:sa");
         $status = 1;
         $data = array();

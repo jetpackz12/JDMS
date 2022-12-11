@@ -23,7 +23,7 @@ class tenantsModel extends model
 		$contact = $param['contact'];
 		$deposit = $param['deposit'];
 		$advance = $param['advance'];
-        $date = date("yy-m-d");
+        $date = date("Y-m-d");
         $time = date("h:i:sa");
         $status = 1;
         $data = array();

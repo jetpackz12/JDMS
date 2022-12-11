@@ -35,10 +35,11 @@
                                     <option value="" selected disabled>--Select Transaction--</option>
                                     <option value="1">Water Billing Payment</option>
                                     <option value="2">Electricity Billing Payment</option>
+                                    <option value="3">Reset</option>
                                 </select>
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-block btn-primary">GO</button>
+                            <button class="btn btn-block btn-primary" id="sort">Go</button>
                         </div>
                         <div class="col-7">
                             <input id="search" class="form-control" type="text" name="search" placeholder="You can use tenant name for searching">
@@ -55,51 +56,64 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php if(isset($_SESSION['sort'])){
+                                    if($_SESSION['sort'] == '1'){
+                                        foreach($data['all'] as $data){
+                                    ?>
                                     <tr>
                                         <td>Water Billing Payment</td>
                                         <td>
-                                            Room 1: Juan Dela Cruz
+                                            Room <?php echo $data['room_number'];?>: 
+                                            <?php echo $data['fname']." ".$data['mname']." ".$data['lname'];?>
                                             <br>
-                                            Previous Reading: 20
+                                            Previous Reading: <?php echo $data['prev_reading'];?>
                                             <br>
-                                            Previous Reading: 14
+                                            Previous Reading: <?php echo $data['pres_reading'];?>
                                             <br>
-                                            Amount: ₱750
+                                            Amount: ₱<?php echo $data['amount'];?>
                                             <br>
-                                            Due: 11/17/2022
+                                            Due: <?php 
+                                            $new_format = (new DateTime($data['due_date']))->format('F d, Y');
+                                            echo $new_format;
+                                            ?>
                                         </td>
-                                        <td>11/12/2022</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Water Billing Payment</td>
                                         <td>
-                                            Room 2: Mary Jane Abik
-                                            <br>
-                                            Previous Reading: 20
-                                            <br>
-                                            Previous Reading: 14
-                                            <br>
-                                            Amount: ₱750
-                                            <br>
-                                            Due: 11/17/2022
+                                            <?php 
+                                                $new_format = (new DateTime($data['date']))->format('F d, Y');
+                                                echo $new_format;
+                                            ?>
                                         </td>
-                                        <td>11/12/2022</td>
                                     </tr>
+                                <?php }
+                                    }else{
+                                        foreach($data2['all'] as $data2){
+                                ?>
                                     <tr>
-                                        <td>Water Billing Payment</td>
-                                        <td>
-                                            Room 3: Kiver Bolay-og Bola
-                                            <br>
-                                            Previous Reading: 20
-                                            <br>
-                                            Previous Reading: 14
-                                            <br>
-                                            Amount: ₱750
-                                            <br>
-                                            Due: 11/17/2022
-                                        </td>
-                                        <td>11/12/2022</td>
+                                        <td>Electricity Billing Payment</td>
+                                            <td>
+                                                Room <?php echo $data2['room_number'];?>: 
+                                                <?php echo $data2['fname']." ".$data2['mname']." ".$data2['lname'];?>
+                                                <br>
+                                                Unit Consumed: <?php echo $data2['unit_consumed'];?>
+                                                <br>
+                                                Amount: ₱<?php echo $data2['amount'];?>
+                                                <br>
+                                                Due: <?php 
+                                                $new_format = (new DateTime($data2['due_date']))->format('F d, Y');
+                                                echo $new_format;
+                                                ?>
+                                            </td>
+                                            <td>
+                                                <?php 
+                                                    $new_format = (new DateTime($data2['date']))->format('F d, Y');
+                                                    echo $new_format;
+                                                ?>
+                                            </td>
                                     </tr>
+                                <?php
+                                        }        
+                                    }
+                                }?>
                                 </tbody>
                             </table>
                         </div>
@@ -122,6 +136,57 @@
             $('#labelpresent_reading').removeClass('labelcolorinputted');
             $('#labelamount').removeClass('labelcolorinputted');
             $('#labeldue_date').removeClass('labelcolorinputted');
+        });
+    </script>
+    <script>
+       $('#sort').click(function() {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 1000
+            });
+
+            var fd = new FormData();
+            var sort = $('#transaction option:selected').val();
+            fd.append('sort',sort);
+            switch (sort){
+                case "":
+                    Toast.fire({
+                            icon: 'warning',
+                            title: 'You need to select transaction!'
+                        });
+                            setTimeout(function() {
+                        },1000);
+                break;
+                default:
+                        ajax();
+            }
+            
+           function ajax(){
+                    $.ajax({
+                        url      : "<?php echo ROOT; ?>reports/sort",
+                        type     : "POST",
+                        cache    : false,
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success  : function(data) {
+
+                        // alert(data);
+                        // console.log(data);
+
+                        Toast.fire({
+                                icon: 'success',
+                                title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSort Success!'
+                            });
+                                setTimeout(function() {
+                                location.reload();
+                            },1000);
+                        }
+                    });
+           }
+
         });
     </script>
     <script>
