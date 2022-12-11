@@ -109,5 +109,56 @@ class getDataModel extends model
 
     }
 
+    public function getAllTenants(){
+        $data='0';
+
+        $sql = "SELECT COUNT(id) 
+                as total_tenants 
+                FROM `tenants` 
+                WHERE status = 1";
+
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+
+        $data = $row['total_tenants'];
+
+        $this->con->close();
+        return $data;
+    }
+
+    public function getAllRoomsAvailable(){
+        $data='0';
+
+        $sql = "SELECT COUNT(id) 
+                as total_tenants 
+                FROM `rooms` 
+                WHERE occupies != capacity";
+
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+
+        $data = $row['total_tenants'];
+
+        $this->con->close();
+        return $data;
+    }
+
+    public function getAllRoomsOccupied(){
+        $data='0';
+
+        $sql = "SELECT COUNT(id) 
+                as total_tenants 
+                FROM `rooms` 
+                WHERE occupies = capacity";
+
+        $result = $this->con->query($sql);
+        $row = $result->fetch_assoc();
+
+        $data = $row['total_tenants'];
+
+        $this->con->close();
+        return $data;
+    }
+
 }
 ?>

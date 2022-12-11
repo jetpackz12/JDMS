@@ -51,10 +51,10 @@ class reportsController extends Controller
 
 		switch ($sort){
 			case "3":
-				unset($_SESSION['sort']);
+				unset($_SESSION['reportsort']);
 			break;
 			default:
-				$_SESSION['sort'] = $sort;
+				$_SESSION['reportsort'] = $sort;
 		}
 		// echo $sort;
 	}

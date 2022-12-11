@@ -56,8 +56,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php if(isset($_SESSION['sort'])){
-                                    if($_SESSION['sort'] == '1'){
+                                <?php if(isset($_SESSION['reportsort'])){
+                                    if($_SESSION['reportsort'] == '1'){
                                         foreach($data['all'] as $data){
                                     ?>
                                     <tr>

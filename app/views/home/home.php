@@ -24,7 +24,7 @@
                                     <div class="inner">
                                         <h3>Total Room Available <i class="nav-icon fas fa-building"></i></h3>
 
-                                        <h1 style="font-size: 100px;">20</h1>
+                                        <h1 style="font-size: 100px;"><?php echo $data2;?></h1>
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +34,7 @@
                                     <div class="inner">
                                         <h3>Total Room Occupied <i class="nav-icon fas fa-building"></i></h3>
 
-                                        <h1 style="font-size: 100px;">10</h1>
+                                        <h1 style="font-size: 100px;"><?php echo $data3;?></h1>
                                     </div>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                                     <div class="inner">
                                         <h3 style="color: #ffffff;">Total Tenants <i class="nav-icon fas fa-users"></i></h3>
 
-                                        <h1 style="font-size: 100px; color: #ffffff;">15</h1>
+                                        <h1 style="font-size: 100px; color: #ffffff;"><?php echo $data;?></h1>
                                     </div>
                                 </div>
                             </div>
