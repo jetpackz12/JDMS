@@ -54,7 +54,7 @@
                                     <div class="inner">
                                         <h3 style="color: #ffffff;">Total Guests <i class="nav-icon fas fa-users"></i></h3>
 
-                                        <h1 style="font-size: 100px; color: #ffffff;">5</h1>
+                                        <h1 style="font-size: 100px; color: #ffffff;"><?php echo $data4;?></h1>
                                     </div>
                                 </div>
                             </div>

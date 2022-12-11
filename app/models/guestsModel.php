@@ -3,7 +3,7 @@
 /**
  * 
  */
-class tenantsModel extends model
+class guestsModel extends model
 {
 	private $con;
 
@@ -21,19 +21,19 @@ class tenantsModel extends model
 		$lname = $param['lname'];
 		$address = $param['address'];
 		$contact = $param['contact'];
-		$deposit = $param['deposit'];
-		$advance = $param['advance'];
+		$duration = $param['duration'];
+		$payment = $param['payment'];
         $date = date("Y-m-d");
         $time = date("h:i:sa");
         $status = 1;
         $data = array();
 
-        $sql = "INSERT INTO `tenants`(`room_number`, `fname`, `mname`, `lname`, `address`, `contact_number`, 
-        `deposit`, `advance`, `date`, `time`, `status`) 
+        $sql = "INSERT INTO `guests`(`room_number`, `fname`, `mname`, `lname`, `address`, `contact_number`, 
+        `duration`, `payment`, `date`, `time`, `status`) 
         VALUES ('" . $room . "','" . $fname . "','" . $mname . "','" . $lname . "','" . $address . "','" . $contact . "'
-        ,'" . $deposit . "','" . $advance . "','" . $date . "','" . $time . "','" . $status . "')";
+        ,'" . $duration . "','" . $payment . "','" . $date . "','" . $time . "','" . $status . "')";
         if ($this->con->query($sql) === TRUE) {
-            $this->updateAddOccupiesRoom($room, '1');
+            $this->updateRoomStatus($room, '0');
             $data = array(
                 'result' => 'success',
                 'message' => 'success'
@@ -54,7 +54,7 @@ class tenantsModel extends model
 	{
         $data = array();
 
-        $sql = "SELECT * FROM `tenants` where id = '" . $id . "'";
+        $sql = "SELECT * FROM `guests` where id = '" . $id . "'";
         $result = $this->con->query($sql);
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()) {
@@ -67,8 +67,8 @@ class tenantsModel extends model
                     'lname' => $row['lname'],
                     'address' => $row['address'],
                     'contact_number' => $row['contact_number'],
-                    'deposit' => $row['deposit'],
-                    'advance' => $row['advance'],
+                    'duration' => $row['duration'],
+                    'payment' => $row['payment'],
                     'date' => $row['date'],
                     'time' => $row['time'],
                     'status' => $row['status']
@@ -90,19 +90,19 @@ class tenantsModel extends model
 		$lname = $param['lname'];
 		$address = $param['address'];
 		$contact = $param['contact'];
-		$deposit = $param['deposit'];
-		$advance = $param['advance'];
+		$duration = $param['duration'];
+		$payment = $param['payment'];
         $data = array();
 
-        $sql = "UPDATE `tenants` 
+        $sql = "UPDATE `guests` 
         SET `room_number`='" . $room . "',`fname`='" . $fname . "',`mname`='" . $mname . "',`lname`='" . $lname . "',`address`='" . $address . "'
-        ,`contact_number`='" . $contact . "',`deposit`='" . $deposit . "',`advance`='" . $advance . "'
+        ,`contact_number`='" . $contact . "',`duration`='" . $duration . "',`payment`='" . $payment . "'
          WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
 
             if($room_id != $room){
-                $this->updateSubOccupiesRoom($room_id, '1');
-                $this->updateAddOccupiesRoom($room, '1');
+                $this->updateRoomStatus($room_id, '1');
+                $this->updateRoomStatus($room, '0');
             } 
             
             $data = array(
@@ -112,7 +112,7 @@ class tenantsModel extends model
         } else {
             $data = array(
                 'result' => 'failed',
-                'message' => "Error updating record: " . $conn->error
+                'message' => "Error updating record: " . $this->con->error
             );
         }
         $this->con->close();
@@ -126,11 +126,11 @@ class tenantsModel extends model
         $room_id = $param['room_id'];
         $data = array();
 
-        $sql = "UPDATE `tenants` 
+        $sql = "UPDATE `guests` 
         SET `status`='0'
         WHERE id = '" . $id . "'";
         if ($this->con->query($sql) === TRUE) {
-            $this->updateSubOccupiesRoom($room_id, '1');
+            $this->updateRoomStatus($room_id, '1');
             $data = array(
                 'result' => 'success',
                 'message' => 'success'
@@ -138,51 +138,17 @@ class tenantsModel extends model
         } else {
             $data = array(
                 'result' => 'failed',
-                'message' => "Error updating record: " . $conn->error
+                'message' => "Error updating record: " . $this->con->error
             );
         }
         $this->con->close();
         return $data;
 	}
 
-    public function updateAddOccupiesRoom($id, $value)
+    public function updateRoomStatus($id, $value)
     {
-        $occupies;
-        $sql="SELECT `occupies` 
-        FROM `rooms` 
-        WHERE id = '" . $id . "'";
-        $result = $this->con->query($sql);
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) {
-                $occupies = $row['occupies']+$value;
-            }
-        }
-
-        // $occupies = $result . $value;
-
         $sqlupdate = "UPDATE `rooms` 
-        SET `occupies`='" . $occupies. "' 
-        WHERE id = '" . $id . "'";
-        $this->con->query($sqlupdate);
-    }
-
-    public function updateSubOccupiesRoom($id, $value)
-    {
-        $occupies;
-        $sql="SELECT `occupies` 
-        FROM `rooms` 
-        WHERE id = '" . $id . "'";
-        $result = $this->con->query($sql);
-        if($result->num_rows > 0){
-            while($row = $result->fetch_assoc()) {
-                $occupies = $row['occupies']-$value;
-            }
-        }
-
-        // $occupies = $result . $value;
-
-        $sqlupdate = "UPDATE `rooms` 
-        SET `occupies`='" . $occupies. "' 
+        SET `status`='" . $value. "' 
         WHERE id = '" . $id . "'";
         $this->con->query($sqlupdate);
     }

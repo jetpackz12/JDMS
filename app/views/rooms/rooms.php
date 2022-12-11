@@ -59,7 +59,11 @@
                                             <!-- /.card-tools -->
                                             <span>Description: <u> <?php echo $data['description'];?></u></span>
                                             <br>
+                                            <?php if($data['status'] == '1') {?>
                                             <span>Capacity: <u> <?php echo $data['occupies'] . "/" . $data['capacity'];?></u></span>
+                                            <?php }else{ ?>
+                                            <span>Capacity: <u> Guests in use!</u></span>
+                                            <?php } ?>
                                             <br>
                                             <span>Type: <u> <?php echo $data['type'];?></u></span>
                                         </div>
@@ -91,7 +95,11 @@
                                             <!-- /.card-tools -->
                                             <span>Description: <u> <?php echo $data['description'];?></u></span>
                                             <br>
+                                            <?php if($data['status'] == '1') {?>
                                             <span>Capacity: <u> <?php echo $data['occupies'] . "/" . $data['capacity'];?></u></span>
+                                            <?php }else{ ?>
+                                            <span>Capacity: <u> Guests in use!</u></span>
+                                            <?php } ?>
                                             <br>
                                             <span>Type: <u> <?php echo $data['type'];?></u></span>
                                         </div>

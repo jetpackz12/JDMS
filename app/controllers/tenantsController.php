@@ -15,13 +15,13 @@ class tenantsController extends Controller
 	{
 		if(isset($_SESSION['name'])){
 			$object = new getDataModel();
-			$data = ['all'=>$object->getRooms()];
+			$data = ['all'=>$object->getRoomsWithStatus()];
 			$object2 = new getDataModel();
 			$data2 = ['all'=>$object2->getTenants()];
 			$object3 = new getDataModel();
-			$data3 = ['all'=>$object3->getRooms()];
+			$data3 = ['all'=>$object3->getRoomsWithStatus()];
 			$object4 = new getDataModel();
-			$data4 = ['all'=>$object4->getRooms()];
+			$data4 = ['all'=>$object4->getRoomsWithStatus()];
 			$this->controller->view()->render4('tenants/tenants.php', $data,$data2,$data3,$data4);
 		}else{
 		    $this->controller->view()->view_render('login/login.php');

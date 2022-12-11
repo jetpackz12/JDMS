@@ -56,7 +56,7 @@
                                             <td><?php echo $data2['room_number'];?></td>
                                             <td><?php echo $data2['fname']." ".$data2['mname']." ".$data2['lname'];?></td>
                                             <td><?php echo $data2['address'];?></td>
-                                            <td><?php echo $data2['contact_number'];?></td>
+                                            <td>0<?php echo $data2['contact_number'];?></td>
                                             <td>₱<?php echo $data2['deposit'];?></td>
                                             <td>₱<?php echo $data2['advance'];?></td>
                                             <td>
@@ -119,7 +119,7 @@
                                                     <span id="spancontact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
                                                     <input class="form-control" id="contact" type="text" name="contact" placeholder="Ex. 9630075784" 
                                                     oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                    maxlength = "11"
+                                                    maxlength = "10"
                                                     required>
                                                 </div>
                                             </div>
@@ -205,7 +205,7 @@
                                                     <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
                                                     <input class="form-control" id="e_contact" type="text" name="e_contact" placeholder="Ex. 9630075784" 
                                                     oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                    maxlength = "11"
+                                                    maxlength = "10"
                                                     required>
                                                 </div>
                                             </div>

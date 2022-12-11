@@ -50,42 +50,27 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($data2['all'] as $data2){?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>Juan Dela Cruz</td>
-                                        <td>Poblacion</td>
-                                        <td>09630075173</td>
-                                        <td>3 hours</td>
-                                        <td>₱450</td>
-                                        <td>Active</td>
+                                        <td><?php echo $data2['room_number'];?></td>
+                                        <td><?php echo $data2['fname']." ".$data2['mname']." ".$data2['lname'];?></td>
+                                        <td><?php echo $data2['address'];?></td>
+                                        <td>0<?php echo $data2['contact_number'];?></td>
+                                        <td><?php echo $data2['duration'];?> Hours</td>
+                                        <td>₱<?php echo $data2['payment'];?></td>
                                         <td>
-                                            <button class="btn btn-block" data-toggle="modal" data-target="#modal-editGuests"><i class="fas fa-edit"> Edit</i></button>
+                                            <?php
+                                                if($data2['status'] == 1)
+                                                echo "Active";
+                                                else echo "Inactive";
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-editGuests" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-edit"> Edit</i></button>
+                                            <button class="btn btn-block edit" data-toggle="modal" data-target="#modal-deleteGuests" data-id="<?php echo $data2['id']; ?>"><i class="fas fa-trash"> Disabled</i></button>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Mary Jane Abik</td>
-                                        <td>Ubay</td>
-                                        <td>09630075173</td>
-                                        <td>4 hours</td>
-                                        <td>₱500</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button class="btn btn-block"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Kiver Bolay-og Bola</td>
-                                        <td>Talibon</td>
-                                        <td>09630075173</td>
-                                        <td>3 hours</td>
-                                        <td>₱450</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <button class="btn btn-block"><i class="fas fa-edit"> Edit</i></button>
-                                        </td>
-                                    </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -97,6 +82,7 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-plus-circle"> Add Guests</i></h4>
                                 </div>
+                                <form class="store" action="<?php echo ROOT; ?>guests/store" method="post">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-6">
@@ -104,9 +90,9 @@
                                                 <label id="labelroom" for="room">Room:</label>
                                                 <select class="form-control" name="room" id="room">
                                                     <option value="" selected disabled>--Select Room--</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
+                                                    <?php foreach($data['all'] as $data){?>
+                                                    <option value="<?php echo $data['id'];?>"><?php echo "Room " . $data['room_num'];?></option>
+                                                    <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -130,7 +116,7 @@
                                                 <span id="spancontact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
                                                 <input class="form-control" id="contact" type="number" name="contact" placeholder="Ex. 9630075784" 
                                                 oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                maxlength = "11"
+                                                maxlength = "10"
                                                 require>
                                             </div>
                                         </div>
@@ -168,6 +154,7 @@
                                     <button type="submit" id="save" class="btn btn-primary">Save</button>
                                     <button type="button" id="close" class="btn btn-default" data-dismiss="modal">Close</button>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -178,84 +165,109 @@
                                 <div class="modal-header">
                                     <h4 class="modal-title"><i class="fas fa-edit"> Edit Guests</i></h4>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_room" for="e_room">Room:</label>
-                                                <select class="form-control" name="e_room" id="e_room" require>
-                                                    <option value="" selected disabled>--Select Room--</option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                </select>
+                                <form class="update" action="<?php echo ROOT; ?>guests/update" method="post">
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <input type="text" id="e_id" name="e_id" hidden>
+                                                    <input type="text" id="e_room_id" name="e_room_id" hidden>
+                                                    <label id="labele_room" for="e_room">Room:</label>
+                                                    <select class="form-control" name="e_room" id="e_room" require>
+                                                        <option value="" selected disabled>--Select Room--</option>
+                                                        <?php foreach($data3['all'] as $data3){?>
+                                                        <option value="<?php echo $data3['id'];?>"><?php echo "Room " . $data3['room_num'];?></option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_address" for="e_address">Address:</label>
+                                                    <input class="form-control" id="e_address" type="text" name="e_address" placeholder="Ex. Poblacion" require>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_address" for="e_address">Address:</label>
-                                                <input class="form-control" id="e_address" type="text" name="e_address" placeholder="Ex. Poblacion" require>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_fname" for="e_fname">Firstname:</label>
+                                                    <input class="form-control" id="e_fname" type="text" name="e_fname" placeholder="Ex. Juan" require>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_contact" for="e_contact">Contact #:</label>
+                                                    <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
+                                                    <input class="form-control" id="e_contact" type="number" name="e_contact" placeholder="Ex. 9630075784" 
+                                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                    maxlength = "10"
+                                                    require>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_mname" for="e_mname">Middlename:</label>
+                                                    <input class="form-control" id="e_mname" type="text" name="e_mname" placeholder="Ex. Dela" require>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_duration" for="e_duration">Duration Hour:</label>
+                                                    <input class="form-control" id="e_duration" type="number" name="e_duration" placeholder="Ex. 2" require>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_lname" for="e_lname">Lastname:</label>
+                                                    <input class="form-control" id="e_lname" type="text" name="e_lname" placeholder="Ex. Cruz" require>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label id="labele_payment" for="e_payment">Payment:</label>
+                                                    <input class="form-control" id="e_payment" type="number" name="e_payment" placeholder="Ex. 500" require>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label id="labelstatus" for="status">Status:</label>
+                                            <select class="form-control" name="status" id="status" require>
+                                                <option value="0">Not Active</option>
+                                                <option value="1">Active</option>
+                                            </select>
+                                        </div> -->
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_fname" for="e_fname">Firstname:</label>
-                                                <input class="form-control" id="e_fname" type="text" name="e_fname" placeholder="Ex. Juan" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_contact" for="e_contact">Contact #:</label>
-                                                <span id="spane_contact" class="labelcolorinvalid">&nbspInvalid Contact Number!</span>
-                                                <input class="form-control" id="e_contact" type="number" name="e_contact" placeholder="Ex. 9630075784" 
-                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                maxlength = "11"
-                                                require>
-                                            </div>
-                                        </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="update" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_mname" for="e_mname">Middlename:</label>
-                                                <input class="form-control" id="e_mname" type="text" name="e_mname" placeholder="Ex. Dela" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_duration" for="e_duration">Duration Hour:</label>
-                                                <input class="form-control" id="e_duration" type="number" name="e_duration" placeholder="Ex. 2" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_lname" for="e_lname">Lastname:</label>
-                                                <input class="form-control" id="e_lname" type="text" name="e_lname" placeholder="Ex. Cruz" require>
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label id="labele_payment" for="e_payment">Payment:</label>
-                                                <input class="form-control" id="e_payment" type="number" name="e_payment" placeholder="Ex. 500" require>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                                <label id="labelstatus" for="status">Status:</label>
-                                                <select class="form-control" name="status" id="status" require>
-                                                    <option value="0">Not Active</option>
-                                                    <option value="1">Active</option>
-                                                </select>
-                                            </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal fade" id="modal-deleteGuests">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><i class="fas fa-edit"> Disabled Guests</i></h4>
                                 </div>
-                                <div class="modal-footer justify-content-between">
-                                    <button type="submit" id="update" class="btn btn-primary">Save</button>
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
+                                <form class="delete" action="<?php echo ROOT; ?>guests/delete" method="post">
+                                    <div class="modal-body">
+                                            <input type="text" id="d_id" name="d_id" hidden>
+                                            <input type="text" id="d_room_id" name="d_room_id" hidden>
+                                        <span>Are you sure you want to disabled this guests?</span>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="submit" id="update" class="btn btn-primary">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -323,13 +335,21 @@
                 if(contactvalue.charAt(0) != '9'){
                     $('#spancontact').show();
                     $('#save').removeClass('btn-primary');
-                    $('#save').addClass('disabled btn-secondary');
+                    $('#save').addClass('btn-secondary');
+                    $('#save').prop('disabled', true);
+                }else{
+                    $('#labelcontact').removeClass('labelcolorinputted');
+                    $('#spancontact').hide();
+                    $('#save').removeClass('btn-secondary');
+                    $('#save').addClass('btn-primary');
+                    $('#save').prop('disabled', false);
                 }
             }else{
                 $('#labelcontact').removeClass('labelcolorinputted');
                 $('#spancontact').hide();
-                $('#save').removeClass('disabled btn-secondary');
+                $('#save').removeClass('btn-secondary');
                 $('#save').addClass('btn-primary');
+                $('#save').prop('disabled', true);
             }
         });
 
@@ -404,13 +424,21 @@
                 if(e_contactvalue.charAt(0) != '9'){
                     $('#spane_contact').show();
                     $('#update').removeClass('btn-primary');
-                    $('#update').addClass('disabled btn-secondary');
+                    $('#update').addClass('btn-secondary');
+                    $('#update').prop('disabled', false);
+                }else{
+                    $('#labele_contact').removeClass('labelcolorinputted');
+                    $('#spane_contact').hide();
+                    $('#update').removeClass('btn-secondary');
+                    $('#update').addClass('btn-primary');
+                    $('#update').prop('disabled', false);
                 }
             }else{
                 $('#labele_contact').removeClass('labelcolorinputted');
                 $('#spane_contact').hide();
-                $('#update').removeClass('disabled btn-secondary');
+                $('#update').removeClass('btn-secondary');
                 $('#update').addClass('btn-primary');
+                $('#update').prop('disabled', false);
             }
         });
 
@@ -460,6 +488,199 @@
         });
 
     </script>
+
+    
+<script>
+  
+  $('.store').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspAdd Guest success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1000);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Add Guest view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1000);
+                }
+        
+        }
+    });
+
+});
+</script>
+
+<script>
+        $(".edit").click(function(){
+        var id = $(this).attr('data-id');
+        // console.log(id);
+        $.ajax({
+          type:'post',
+          url: '<?php echo ROOT; ?>guests/edit',
+          data: {id:id},
+          dataType:'json',
+          success:function(data) {
+
+            // console.log(data);
+
+            $('#e_id').val(data.id);
+            $('#e_room_id').val(data.room_number);
+            $('#e_room').val(data.room_number);
+            $('#e_fname').val(data.fname);
+            $('#e_mname').val(data.mname);
+            $('#e_lname').val(data.lname);
+            $('#e_address').val(data.address);
+            $('#e_contact').val(data.contact_number);
+            $('#e_duration').val(data.duration);
+            $('#e_payment').val(data.payment);
+
+            $('#d_id').val(data.id);
+            $('#d_room_id').val(data.room_number);
+
+          }
+
+        });
+      });
+    </script>
+
+<script>
+
+  $('.update').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspUpdate Guest success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1000);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Update Guest view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1000);
+                }
+        
+        }
+    });
+
+});
+</script>
+
+<script>
+  
+  $('.delete').on('submit',function(e){
+    e.preventDefault();
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 1000
+    });
+    
+      $.ajax({
+        type     : "POST",
+        cache    : false,
+        url      : $(this).attr('action'),
+        data     : $(this).serialize(),
+        success  : function(data) {
+
+        //   console.log(data);
+
+          switch (data){
+                case "success":
+                    Toast.fire({
+                        icon: 'success',
+                        title: '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspDisable Guest success!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        location.reload();
+                    },1000);
+                break;
+                case "failed":
+                    $('#spanroom').show();
+                break;
+                default:
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'Failed to Disable Guest view console log!'
+                    });
+                        setTimeout(function() {
+                        // body...
+                        // location.reload();
+                        console.log(data);
+                    },1000);
+                }
+        
+        }
+    });
+
+});
+</script>
 
     <script>
         $(function () {
