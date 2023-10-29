@@ -1,7 +1,7 @@
 <?php
 //define("ROOT", "/");
-define("TITLE", "RDMS");
-define("DESCRIPTION", "Rams Dometory Management System");
+define("TITLE", "JDMS");
+define("DESCRIPTION", "Jetz Dometory Management System");
 define("ROOT", "/RDMS/");
 define("BOOTSTRAP", "public/");
 define("PATH_CONTROLLER", "app/controllers/");

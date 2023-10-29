@@ -20,7 +20,9 @@ class loginController extends Controller
 			$data2 = $object2->getAllRoomsAvailable();
 			$object3 = new getDataModel();
 			$data3 = $object3->getAllRoomsOccupied();
-			$this->controller->view()->render3('home/home.php',$data,$data2,$data3);
+			$object4 = new getDataModel();
+			$data4 = $object4->getAllGuests();
+			$this->controller->view()->render4('home/home.php',$data,$data2,$data3,$data4);
 		}else{
 			if($_SERVER['REQUEST_METHOD'] == 'POST'){
 				$username = isset($_POST['username'])? $_POST['username'] : '';
