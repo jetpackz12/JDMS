@@ -95,7 +95,7 @@
                   </div>
                 </div>
                 <div class="col-4" style="border: 1px solid #8a867a; border-radius: 10px; padding: 10px;">
-                  <img src="<?php echo ROOT.BOOTSTRAP; ?>img/logo.png" alt="Logo Image">
+                  <img src="<?php echo ROOT.BOOTSTRAP; ?>img/logo2.png" alt="Logo Image">
                   <h3><?php echo DESCRIPTION;?></h3>
                   <form class="frm" action="<?php echo ROOT; ?>login" method="post">
                         <div class="form-group">

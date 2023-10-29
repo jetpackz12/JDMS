@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link" style="font-size: 20px;">
-      <img src="<?php echo ROOT.BOOTSTRAP; ?>img/logo.png" alt="RDMS" class="img-circle elevation-3 logo" width="65px">
+      <img src="<?php echo ROOT.BOOTSTRAP; ?>img/logo2.png" alt="RDMS" class="img-circle elevation-3 logo" width="65px">
       <span class="brand-text" style="color: #ffffff;">&nbsp&nbsp&nbsp<?php echo TITLE; ?></span>
     </a>
 

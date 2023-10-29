@@ -48,7 +48,7 @@
   <!-- Ekko Lightbox -->
   <link rel="stylesheet" href="<?php echo ROOT.BOOTSTRAP; ?>plugins/ekko-lightbox/ekko-lightbox.css">
   
-  <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo.PNG">
+  <link rel="shortcut icon" type="text/css" href="<?php echo ROOT.BOOTSTRAP; ?>img/logo2.PNG">
 
   <style>
     /* Chrome, Safari, Edge, Opera */
